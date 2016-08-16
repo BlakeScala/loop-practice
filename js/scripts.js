@@ -37,20 +37,32 @@ $(document).ready(function(){
 
 // Prime numbers
 	$("form#prime").submit(function(event){
+		$('#uloutput').empty();
 		var inputNumber = parseInt($("#numberInput").val());
 		var primes = [];
+		var final = [];
+		var indexDifference = 0;
 		for (var count = 2; count < inputNumber; count++) {
 			primes.push(count);
+			final.push(count);
 		}
 
-		for (var index = 2; index < inputNumber/2; index++) {
+		for (var divisor = 2; divisor < inputNumber/2; divisor++) {
+			indexDifference = 0;
 			primes.forEach(function(element, elementIndex) {
-		  	if(element % index === 0 && element != index) {
-		    	primes.splice(elementIndex, 1);
+		  	if(element % divisor === 0 && element != divisor) {
+		    	final.splice(elementIndex - indexDifference, 1);
+					indexDifference++;
 		    }
 		  });
+			primes = final.map(function(element) {
+				return element;
+			});
 		}
-		$("#output3").text(primes);
+		primes.forEach(function(element){
+			$("#uloutput").append("<li>" + element + "</li>");
+		});
+
 		event.preventDefault();
 	});
 });
